@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Book app
+{% endblock %}
+
+{% block body %}
+    <h1>
+      Welcome to  the Book app
+    </h1>
+      <form action="{{ url_for('login') }}" method="post">
+        Username: <input type="text" name="username" placeholder="username"><br>
+        password: <input type="password" name="password" placeholder="password"><br>
+        <button>Login</button>
+      </form>
+      <p>
+        Don't have an account? Click <a href= "{{ url_for('signup')}}">Here</a> to sign up.
+      </p>
+      {% if error %}
+        An error occured
+        {% if error['database_error'] != None %}
+
+          <ul><font color="red"><i>{{ error['database_error'] }}</i></font></ul>
+        {% endif %}
+
+        {% if error['username_error'] != None %}
+          <ul><font color="red"><i>{{ error['username_error'] }}</i></font></ul>
+        {% endif %}
+
+        {% if error['password_error'] != None %}
+          <ul><font color="red"><i>{{ error['password_error'] }}</i></font></ul>
+        {% endif %}
+      {% endif %}
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  Home
+{% endblock %}
+
+{% block body %}
+  <br><p>Welcome {{ username}}!</p><br>
+  <h1>Search for a Book</h1><br>
+
+  <form class="{{ url_for('welcome') }}" method="post">
+    Title: <input type="text" name="title" placeholder="title"><br><br>
+    Author: <input type="text" name="author" placeholder="author"><br><br>
+    Isbn: <input type="text" name="isbn" placeholder="isbn"><br><br>
+    <button>Search</button><br><br>
+  </form>
+
+  {% if error %}
+    {%if error['search_error'] != None %}
+      <font color = "red"><i>{{ error['search_error'] }}</i></font>
+    {% endif %}
+  {% endif%}
+
+  {% if books %}
+    <h2> Search Results</h2>
+    <ul>
+      {%for book in books %}
+        <li>
+          <a href="{{ url_for('details', book_id = book.id) }}">
+            {{ book.title }} by {{ book.author }}
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+  <br><br>
+  <a href="{{ url_for('logout') }}"> Log out</a>
+{% endblock %}

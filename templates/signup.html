@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  Create account
+{% endblock %}
+
+{% block body %}
+  <h1>Create a new account</h1>
+  <form action="{{ url_for('signup') }}" method="post">
+    email: <input type="text" name="email" placeholder="email"><br>
+    Username: <input type="text" name="username" placeholder="username"><br>
+    password: <input type="password" name="password" placeholder="password"><br>
+    password: <input type="password" name="verify" placeholder="password"><br>
+    <button>Create Account</button>
+  </form>
+  {%if error %}
+    {% if error['username_error'] != None %}
+      <br>
+      An error occured: <br>
+      <ul><font color="red"><i>{{ error['username_error'] }}</i></font></ul>
+    {% endif %}
+    {% if error['password_error'] != None %}
+      <ul><font color="red"><i>{{ error['password_error'] }}</i></font></ul>
+    {% endif %}
+    {% if error['email_error'] != None %}
+      <ul><font color="red"><i>{{ error['password_error'] }}</i></font></ul>
+    {% endif %}
+  {% endif %}
+  <br>
+  Already have an account? <a href="{{ url_for('login')}}">Login</a>
+{% endblock %}

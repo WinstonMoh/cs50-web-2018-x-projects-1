@@ -1,0 +1,64 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  {{ book.title }}
+{% endblock %}
+
+{% block body %}
+  <a href="{{ url_for('welcome', username = username) }}">Back to Home</a><br><br>
+
+  <!-- Display Book details -->
+  {% if book %}
+    <h1>{{ book.title }}</h1>
+    <ul>
+      Author: {{ book.author }}<br>
+      Publication year: {{ book.year }}<br>
+      ISBN number: {{ book.isbn }}<br>
+    </ul>
+    <h3>GOODREADS ratings</h3>
+    <ul>
+      Ratings count: {{ ratings[0] }} <br>
+      Average rating: {{ ratings[1] }} <br>
+    </ul>
+  {% endif %}
+
+  <!-- Display reviews   -->
+  <h3> Reviews: </h3>
+  <ul>
+    {% for review in reviews %}
+    <li>
+      <font color="green"><i>{{ review[0] }}: </i></font> <br>
+      {{ review[2] }}<br>
+      <font color="red"><i>Rating:</i></font> <b>{{ review[1] }}</b>/5
+    </li>
+    <br>
+    {% endfor %}
+  </ul>
+  <br><br>
+  <!-- Add a book review -->
+  <h3>Enter review: </h3>
+  <form action="{{ url_for('details', book_id = book.id) }}" method="post">
+    <div>
+      Rate this book:
+      <select class="form-control" name="rating">
+        <option value="0">-</option>
+        {% for i in range(1,6) %}
+          <option value="{{ i }}">{{ i }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <br>
+    <div>
+      <textarea name="review" rows="8" cols="80">Enter text here...</textarea>
+    </div>
+    <input type="submit" value="Submit">
+  </form>
+
+  {% if error %}
+    <font color="red"><i>{{ error['outcome'] }}</i></font>
+  {% endif %}
+
+  <!-- Log out of application -->
+  <br>
+  <a href="{{ url_for('logout') }}"> Log out</a>
+{% endblock %}
